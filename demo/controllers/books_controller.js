@@ -23,11 +23,12 @@ const createBook = (req, res, next) => {
 };
 
 const updateBookById = (req, res, next) => {
-  Book.findByIdAndUpdate(req.params.id, { $set: req.body},{new:true})
-  .then((book)=>{
-    res.json(book)
-  }).catch(next)
-}
+  Book.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+    .then((book) => {
+      res.json(book);
+    })
+    .catch(next);
+};
 
 const deleteAllBooks = (req, res, next) => {
   Book.deleteMany()
@@ -39,10 +40,11 @@ const deleteAllBooks = (req, res, next) => {
 
 const getBookById = (req, res, next) => {
   Book.findById(req.params.id)
-  .then((book)=>{
-    res.json(book)
-  }).catch(next)
-  
+  .populate('category')
+    .then((book) => {
+      res.json(book);
+    })
+    .catch(next);
 };
 
 // const updateBook = (req, res) => {
@@ -57,10 +59,11 @@ const getBookById = (req, res, next) => {
 // };
 
 const deleteBookById = (req, res) => {
-  Book.findByIDAndDelete (req.params.id)
-  .then((reply)=>{
-    res.json(reply)
-  }).catch(next)
+  Book.findByIDAndDelete(req.params.id)
+    .then((reply) => {
+      res.json(reply);
+    })
+    .catch(next);
 };
 
 module.exports = {

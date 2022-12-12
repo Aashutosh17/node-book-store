@@ -5,6 +5,7 @@ const logger = require("./logger");
 const mongoose = require("mongoose");
 const path = require("path");
 const book_routes = require("./routes/books-routes");
+const category_routes = require("./routes/category-routes")
 
 const app = express();
 
@@ -39,7 +40,8 @@ app.get("^/$|/index(.html)?", (req, res) => {
 });
 
 // 3. Router level middleware
-app.use("/books", book_routes);
+app.use("/books", book_routes)
+app.use("/categories", category_routes)
 
 // 4. Error Handelling middleware
 app.use((err, req, res, next) => {
