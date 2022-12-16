@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
@@ -7,6 +8,7 @@ const path = require("path");
 const book_routes = require("./routes/books-routes");
 const category_routes = require("./routes/category-routes");
 const user_routes = require("./routes/user-routes");
+const auth = require('./middleware/auth')
 
 const app = express();
 
@@ -42,11 +44,13 @@ app.get("^/$|/index(.html)?", (req, res) => {
 
 // 3. Router level middleware
 app.use("/users", user_routes);
+app.use(auth.verifyUser)
 app.use("/books", book_routes);
 app.use("/categories", category_routes);
 
 // 4. Error Handelling middleware
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ err: err.message });
+  console.log(err.stack);
+  if (res.statusCode == 200)res.status(500)
+  res.json({ "message": err.message });
 });
