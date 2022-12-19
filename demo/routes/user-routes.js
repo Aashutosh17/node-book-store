@@ -11,7 +11,7 @@ router.post("/register", (req, res, next) => {
     .then((user) => {
       if (user != null) {
         let err = new Error(`User ${req.body.username} already exists.`);
-        res.status(400)
+        res.status(400);
         return next(err);
       }
 
@@ -40,7 +40,7 @@ router.post("/login", (req, res, next) => {
     .then((user) => {
       if (user == null) {
         let err = new Error(`User ${req.body.username} has not registered`);
-        res.status(404)
+        res.status(404);
         return next(err);
       }
 
@@ -48,7 +48,7 @@ router.post("/login", (req, res, next) => {
         if (err) return next(err);
         if (!status) {
           let err = new Error("Password doesnt match.");
-          res.json(401)
+          res.json(401);
           return next(err);
         }
 
