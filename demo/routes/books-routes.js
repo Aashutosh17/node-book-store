@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/books_controller");
 const reviewController = require("../controllers/reviews_controller");
-const {verifyUser} = require("../middleware/auth");
+const {verifyUser, verifyAdmin} = require("../middleware/auth");
+
 
 router
   .route("/")
@@ -11,10 +12,9 @@ router
   .put((req, res) => {
     res.status(501).json({ reply: "Put Req not supported" });
   })
-  .delete(verifyUser, bookController.deleteAllBooks);
+  .delete(verifyUser,verifyAdmin, bookController.deleteAllBooks);
 
-router
-  .route("/:id")
+router.use(verifyUser).route("/:id")
   .get(bookController.getBookById)
   .post((req, res) => {
     res.status(501).json({ reply: "Not implemented" });

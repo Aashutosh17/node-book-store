@@ -20,6 +20,7 @@ router.post("/register", (req, res, next) => {
         let user = new User();
         user.username = req.body.username;
         user.password = hash;
+        if (req.body.role) user.role = req.body.role;
         user
           .save()
           .then((user) => {
@@ -27,6 +28,7 @@ router.post("/register", (req, res, next) => {
               status: "User registered Successfully",
               userId: user._id,
               username: user.username,
+              role: user.role,
             });
           })
           .catch(next);
@@ -55,6 +57,7 @@ router.post("/login", (req, res, next) => {
         let data = {
           userId: user._id,
           username: user.username,
+          role: user.role,
         };
         jwt.sign(
           data,
