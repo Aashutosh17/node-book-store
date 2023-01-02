@@ -7,6 +7,7 @@ const path = require("path");
 const book_routes = require("./routes/books-routes");
 const category_routes = require("./routes/category-routes");
 const user_routes = require("./routes/user-routes");
+const profile_routes = require("./routes/profile-routes");
 const auth = require("./middleware/auth");
 
 const app = express();
@@ -43,8 +44,9 @@ app.get("^/$|/index(.html)?", (req, res) => {
 
 // 3. Router level middleware
 app.use("/users", user_routes);
-app.use(auth.verifyUser);
+// app.use(auth.verifyUser);
 app.use("/books", book_routes);
+app.use("/profile", auth.verifyUser,profile_routes);
 app.use("/categories", category_routes);
 
 // 4. Error Handelling middleware
