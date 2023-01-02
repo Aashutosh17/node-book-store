@@ -1,4 +1,0 @@
-Pure functions are easier to test than impure functions
-* Pure function are those who doesnot have side effects input kei liyera kei
- fix kura return gari rako xa vane thats pure function
- 
