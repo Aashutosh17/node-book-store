@@ -10,12 +10,16 @@ const user_routes = require("./routes/user-routes");
 const profile_routes = require("./routes/profile-routes");
 const auth = require("./middleware/auth");
 
-const app = express();
 
-const port = 3001;
+const app = express();
+const port = process.env.DB_URI || 3001;
+
+const DB_URI = (process.env.NODE_ENV === 'test')
+?process.env.Test_DB_URI
+: process.env.DB_URI
 
 mongoose
-  .connect("mongodb://localhost:27017/books-29B")
+  .connect(DB_URI)
   .then(() => {
     console.log("Connected to MongoDB server");
     app.listen(port, () => {
@@ -23,9 +27,6 @@ mongoose
     });
   })
   .catch((err) => console.log(err));
-
-// 2. Express defined middleware
-app.use(express.json());
 
 //logger
 // 1.  Application level middleware
@@ -46,7 +47,7 @@ app.get("^/$|/index(.html)?", (req, res) => {
 app.use("/users", user_routes);
 // app.use(auth.verifyUser);
 app.use("/books", book_routes);
-app.use("/profile", auth.verifyUser,profile_routes);
+app.use("/profile", auth.verifyUser, profile_routes);
 app.use("/categories", category_routes);
 
 // 4. Error Handelling middleware
